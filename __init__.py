@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from os.path import join
+from os.path import join, abspath, dirname
+from mycroft.util import play_wav, play_mp3
 from mycroft.skills.core import FallbackSkill
 from mycroft.util.parse import normalize
 
@@ -42,7 +43,11 @@ class UnknownSkill(FallbackSkill):
                     self.log.info('Fallback type: ' + i)
                     self.speak_dialog(i, data={'remaining': l.replace(i, '')})
                     return True
-        self.speak_dialog('unknown')
+
+        unknown_file = join(abspath(dirname(__file__)),
+                          "sounds/unknown.mp3")
+        play_mp3(unknown_file)
+
         return True
 
 
